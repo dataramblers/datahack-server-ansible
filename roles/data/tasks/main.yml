@@ -1,0 +1,26 @@
+---
+#- name: Get 5025sah2 images data from the Sozialarchiv
+#  unarchive:
+#    src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/59371d00-6333-42f6-b20e-dc711c3c0ecd/download/5025sah2.zip
+#    dest: /data/images/
+#    remote_src: yes
+- name: Get 5025-fa-001294 images data from the Sozialarchiv
+  unarchive:
+    src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/7c56e707-fb73-4151-b814-904617c158d2/download/5025-fa-001294.zip
+    dest: /data/images/
+    remote_src: yes
+- name: Get 5025-fa-295476 images data from the Sozialarchiv
+  unarchive:
+    src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/a4280b29-eb43-4baa-80a7-a3edb3724076/download/5025-fa-295476.zip
+    dest: /data/images/
+    remote_src: yes
+- name: Get 5025-fb-401600 images data from the Sozialarchiv
+  unarchive:
+    src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/1088d9ff-66a7-4868-8a0c-ca694dfeae77/download/5025-fb-401600.zip
+    dest: /data/images/
+    remote_src: yes
+- name: Get 5025-fb-601771 images data from the Sozialarchiv
+  unarchive:
+    src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/6a0d48d9-2bac-4935-880c-78aefb741e20/download/5025-fb-601771.zip
+    dest: /data/images/
+    remote_src: yes

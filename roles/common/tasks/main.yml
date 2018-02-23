@@ -1,0 +1,9 @@
+---
+- name: Generate data folder
+  file:
+      path: /data/images/
+      state: directory
+- name: Install Uzip
+  apt: name={{item}} state=installed
+  with_items:
+       - unzip

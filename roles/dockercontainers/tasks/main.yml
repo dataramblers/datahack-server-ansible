@@ -1,0 +1,29 @@
+---
+# Setup dockjer containers to run iiif
+- docker_service:
+    project_name: iiif
+    definition:
+      version: '2'
+      services:
+        nginxproxy:
+          image: jwilder/nginx-proxy
+          ports:
+            - 80:80
+          volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        iiif:
+          image: lorisimageserver/loris
+          volumes:
+            - /data/images:/opt/loris/tests/img
+          environment:
+            - VIRTUAL_HOST=iiif.dataramblers.io
+      volumes:
+        iiif:
+          driver: local
+  register: output
+- debug:
+    var: output
+- assert:
+    that:
+      - "nginxproxy.iiif_nginxproxy_1.state.running"
+      - "iiif.iiif_iiif_1.state.running"
