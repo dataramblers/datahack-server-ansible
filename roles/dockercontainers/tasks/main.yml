@@ -1,5 +1,5 @@
 ---
-# Setup dockjer containers to run iiif
+# Setup docker containers to run iiif
 - docker_service:
     project_name: iiif
     definition:
@@ -17,6 +17,9 @@
             - /data/images:/opt/loris/tests/img
           environment:
             - VIRTUAL_HOST=iiif.dataramblers.io
+          depends_on:
+            - nginxproxy
+          restart: always
       volumes:
         iiif:
           driver: local
