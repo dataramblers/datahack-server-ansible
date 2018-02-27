@@ -6,4 +6,18 @@
 - name: Install Uzip
   apt: name={{item}} state=installed
   with_items:
-       - unzip
+      - unzip
+- name: Updates the servers package list
+  apt: update_cache=yes
+- name: Upgrade the server
+  apt: upgrade=dist
+- name: Check if a reboot is required
+  register: file
+  stat: path=/var/run/reboot-required get_md5=no
+- name: Reboot the server
+  command: /sbin/reboot
+  when: file.stat.exists == true
+- name: Wait for 3 minutes for server to come online again
+  become: false
+  local_action: wait_for port=22 host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex='OpenSSH' delay=180 timeout=300
+  when: file.stat.exists == true
