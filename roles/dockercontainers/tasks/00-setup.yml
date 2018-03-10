@@ -1,0 +1,52 @@
+---
+# Setup docker containers to run iiif
+- name: setup docker containers
+  docker_service:
+    project_name: iiif
+    definition:
+      version: '2.2'
+      services:
+        nginxproxy:
+          image: bbtsoftwareag/nginx-proxy-unrestricted-requestsize:alpine
+          ports:
+            - 80:80
+          volumes:
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        iiif:
+          image: lorisimageserver/loris
+          volumes:
+            - /data/images:/opt/loris/tests/img
+          environment:
+            - VIRTUAL_HOST=iiif.{{domain}}
+          depends_on:
+            - nginxproxy
+          restart: always
+        elasticsearch:
+          image: docker.elastic.co/elasticsearch/elasticsearch:6.2.2
+          environment:
+            - bootstrap.memory_lock=true
+            - discovery.type=single-node
+            - "ES_JAVA_OPTS=-Xms256m -Xmx700m"
+            - VIRTUAL_HOST=es.{{domain}}
+            - VIRTUAL_PORT=9200
+          ulimits:
+            memlock:
+              soft: -1
+              hard: -1
+          cpus: 0.5
+          volumes:
+            - es:/usr/share/elasticsearch/data
+          depends_on:
+            - nginxproxy
+          restart: always
+      volumes:
+        es:
+          driver: local
+  register: output
+- debug:
+    var: output
+- assert:
+    that:
+      - "nginxproxy.iiif_nginxproxy_1.state.running"
+      - "iiif.iiif_iiif_1.state.running"
+      - "elasticsearch.iiif_elasticsearch_1.state.running"

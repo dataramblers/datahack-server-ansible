@@ -21,3 +21,7 @@
   become: false
   local_action: wait_for port=22 host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex='OpenSSH' delay=180 timeout=300
   when: file.stat.exists == true
+- name: Set vm.max_map_count
+  shell: sysctl -w vm.max_map_count=262144
+- name: Set vm.max_map_count
+  shell: echo "vm.max_map_count=262144" > /etc/sysctl.conf
