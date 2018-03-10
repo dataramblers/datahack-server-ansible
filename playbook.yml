@@ -30,6 +30,8 @@
   - data
 
 - name: Install iiif server and start it
+  vars:
+    domain: dataramblers.io
   hosts: all
   remote_user: root
   roles:

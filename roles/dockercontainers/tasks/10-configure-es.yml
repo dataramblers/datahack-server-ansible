@@ -1,0 +1,24 @@
+---
+- name: Generate tmp folder for metadata
+  file:
+      path: /tmp/metadata
+      state: directory
+- name: Load metadata from github
+  unarchive:
+    src: https://github.com/dataramblers/datenhack-sozarchiv/files/1769001/F_5025.Schweizerisches.Arbeiterhilfswerk.SAH.json.zip
+    dest: /tmp/metadata
+    remote_src: yes
+- name: Check if SAH index exist
+  uri:
+    url: http://es.dataramblers.io/sah
+    method: GET
+    status_code: 200
+    body_format: json
+  register: index
+- name: Install all required pip packages for the data import
+  pip:
+    name: elasticsearch tqdm
+  # send metadata to the es server
+- name: Load the data into the index
+  # when: index.status != 200
+  script: load-data.py --es-host=es.{{domain}} --es-port=80 --es-flush=true --es-index=sah /tmp/metadata/F*.json
