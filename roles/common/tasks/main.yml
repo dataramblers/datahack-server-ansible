@@ -1,7 +1,7 @@
 ---
 - name: Generate data folder
   file:
-      path: /data/images/
+      path: "{{data}}/images/"
       state: directory
 - name: Install Uzip
   apt: name={{item}} state=installed
@@ -15,11 +15,16 @@
   register: file
   stat: path=/var/run/reboot-required get_md5=no
 - name: Reboot the server
-  command: /sbin/reboot
+  shell: sleep 5 && /sbin/reboot
+  async: 1
+  poll: 0
   when: file.stat.exists == true
 - name: Wait for 3 minutes for server to come online again
   become: false
-  local_action: wait_for port=22 host={{ ansible_ssh_host | default(inventory_hostname) }} search_regex='OpenSSH' delay=180 timeout=300
+  wait_for_connection:
+    timeout: 900
+    delay: 60
+    sleep: 5
   when: file.stat.exists == true
 - name: Set vm.max_map_count
   shell: sysctl -w vm.max_map_count=262144
