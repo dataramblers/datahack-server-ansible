@@ -24,3 +24,5 @@
     src: https://data.stadt-zuerich.ch/dataset/9e986455-0a3d-4d55-94c7-9e903b61536e/resource/6a0d48d9-2bac-4935-880c-78aefb741e20/download/5025-fb-601771.zip
     dest: "{{data}}/images"
     remote_src: yes
+- name: move images to parent folder
+  shell: "mv {{data}}/images/*/*.tif {{data}}/images/"
