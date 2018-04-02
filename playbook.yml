@@ -1,38 +1,36 @@
 ---
 - name: Install python
   hosts: all
-  remote_user: root
+  become: yes
   gather_facts: False
   tasks:
   - name: install python 2
     raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
-
+# basic config
 - name: apply common configuration to all nodes
   hosts: all
-  remote_user: root
+  become: yes
   roles:
   - common
-
+# install docker and co
 - name: Install docker on nodes
   hosts: all
-  remote_user: root
+  become: yes
   vars:
     pip_install_packages:
       - name: docker
   roles:
     - geerlingguy.pip
     - geerlingguy.docker
-
+# load all data from sah or any other data provider
 - name: Get all images from the sozialarchiv
   hosts: all
-  remote_user: root
+  become: yes
   roles:
   - data
-
+# load and start the docker containers
 - name: Install iiif server and start it
-  vars:
-    domain: dataramblers.io
   hosts: all
-  remote_user: root
+  become: yes
   roles:
   - dockercontainers
