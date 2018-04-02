@@ -1,0 +1,15 @@
+---
+- name: Upload elasticsearch config
+  copy:
+    src: ./files/elasticsearch.yml
+    dest: "{{data}}/elasticsearch.yml"
+- name: change access rights to elasticsearch.yml
+  file:
+    path: "{{data}}/elasticsearch.yml"
+    owner: 1000
+    group: 1000
+    mode: 0777
+- name: Upload proxy config
+  copy:
+    src: ./files/cors.conf
+    dest: "{{data}}/cors.conf"
