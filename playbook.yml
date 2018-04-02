@@ -1,7 +1,7 @@
 ---
 - name: Install python
   hosts: all
-  remote_user: root
+  remote_user: ansible 
   gather_facts: False
   tasks:
   - name: install python 2
@@ -9,13 +9,13 @@
 
 - name: apply common configuration to all nodes
   hosts: all
-  remote_user: root
+  remote_user: ansible 
   roles:
   - common
 
 - name: Install docker on nodes
   hosts: all
-  remote_user: root
+  remote_user: ansible 
   vars:
     pip_install_packages:
       - name: docker
@@ -25,7 +25,7 @@
 
 - name: Get all images from the sozialarchiv
   hosts: all
-  remote_user: root
+  remote_user: ansible 
   roles:
   - data
 
@@ -33,6 +33,6 @@
   vars:
     domain: dataramblers.io
   hosts: all
-  remote_user: root
+  remote_user:  ansible
   roles:
   - dockercontainers
