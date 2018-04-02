@@ -12,7 +12,6 @@
             - 80:80
           volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
-            - "{{data}}/cors.conf:/etc/nginx/vhost.d/default_location"
         iiif:
           image: lorisimageserver/loris
           volumes:
@@ -36,7 +35,7 @@
               hard: -1
           cpus: 0.5
           volumes:
-            - "{{data}}/elasticsearch.yml:/usr/share/elasticsearch/data/elasticsearch.yml"
+            - "{{data}}/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
             - es:/usr/share/elasticsearch/data
           depends_on:
             - nginxproxy
