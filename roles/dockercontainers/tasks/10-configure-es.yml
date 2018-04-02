@@ -8,9 +8,17 @@
     src: https://github.com/dataramblers/datenhack-sozarchiv/files/1769001/F_5025.Schweizerisches.Arbeiterhilfswerk.SAH.json.zip
     dest: /tmp/metadata
     remote_src: yes
+- name: Wait until ES is ready
+  uri:
+    url: "http://es.{{domain}}"
+    status_code: 200
+  register: result
+  until: result.status == 200
+  retries: 60
+  delay: 5
 - name: Check if SAH index exist
   uri:
-    url: http://es.dataramblers.io/sah
+    url: "http://es.{{domain}}/sah"
     method: GET
     status_code: 200
     body_format: json
