@@ -33,18 +33,7 @@ You can set several variables in the inventory to control the playbook. See also
 * data: This is the place to store the image data from the sah 
 * domain: This domain is used in the setup of the reverse proxy
 
-## Use locally (untested)
-You could use the script against your local system, but this is a bad idea. It tries to restart your system and will install some packages you don't really need.
-```
-# filename: local
-[local]
-localhost    ansible_user=YOURUSER  ansible_connection=local data=./data domain=dataramblers.localhost
-``` 
 
-Then you can start the script 
-```
-ansible-playbook -i local playbook.yml
-```
 ## Deploy 
 Install a debian based linux distribution in a hypervisor (f.e. (virtualbox)[https://www.virtualbox.org/]). For this example we used ubuntu 16.04 server edition. You need to enable openssh-server and configure a user with sudo rights. Before you start take a snapshot of your machine. so you can go back if it fails.
 
