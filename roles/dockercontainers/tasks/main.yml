@@ -1,3 +1,4 @@
 ---
-- import_tasks: 00-setup.yml
+- import_tasks: 00-prepare.yml
+- import_tasks: 05-setup.yml
 - import_tasks: 10-configure-es.yml
